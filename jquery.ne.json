@@ -1,0 +1,13 @@
+$.i18n.ne = {
+   numeralBase : 2406,
+   numeralPrefix:"u0"
+   /*
+    * additional values that could be added
+    * 
+    * monetary format
+    * non-monetary numeric format
+    * date format
+    * time format
+    * yes, no  for yes, no questions
+    */
+};

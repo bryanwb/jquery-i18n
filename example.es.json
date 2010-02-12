@@ -1,0 +1,3 @@
+jQuery.i18n.es.strings = {
+    "Hello": "Hola", "Welcome":"Bienvenido"
+};

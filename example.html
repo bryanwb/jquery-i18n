@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Example of jquery i18n </title>
+
+<script type='text/javascript' src='./jquery-1.3.2.min.js'></script>
+<script type='text/javascript' src='./jquery.i18n.js'></script>
+<script type='text/javascript' src='./jquery.ne.json'></script>
+<script type='text/javascript' src='example.ne.json'></script>
+
+<script type='text/javascript'>
+$(document).ready(function(){
+  $._.setLocale('ne');
+
+  $('#example1').append("<div>" + $._('Welcome')+"</div>");
+  $('#example1').append("<div>" + $._n(90) + "</div>");
+
+});
+
+</script>
+
+</head>
+<body>
+  <div id='example1'>Example using strings application-wide <br />
+  <code>
+    $('#example1').append("&lt;div&gt;" + $._('Hello')+"&lt;/div&gt;"); <br />
+    $('#example1').append("&lt;div&gt;" + $._n(90) + "&lt;/div&gt;"); <br />
+  </code>
+  </div>
+
+</body>
+</html>
