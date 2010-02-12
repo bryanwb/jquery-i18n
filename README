@@ -1,0 +1,138 @@
+README for jQuery-i18n
+
+jquery-i18n is a simple plugin that helps you internationalize your web application. You
+can also use it to extend other jQuery plugins to support internationalization.
+
+
+=== Namespace ===
+
+jQuery-i18n adds the "i18n" namespace to jQuery. "_" is also added as a shortcut.
+
+$.i18n, $._
+
+$.i18n, $._ are also method calls to translate an individual string
+
+
+=== How jQuery-i18n maintains locale information: ===
+
+Non-application specific information is maintained in a separate json file named jquery.locale_name.json . This should include date, currency, number, and other formatting information.
+
+Examples:
+
+jquery.ne.json     # Nepali locale
+jquery.es.json     # Spanish
+jquery.pt_BR.json  # Brazilian Portuguese
+
+Example locale file:
+
+-- File: jquery.ne.json, where "ne" stands for Nepali locale --
+
+$.i18n.ne = {
+   date : 'dd/mm/yy',
+   monetary: 'nn,nnnn.nn',
+   currency: 'rs',
+   numeralBase : 2406,
+   numeralPrefix:"u0"
+   /*
+    * additional values that could be added
+    * 
+    * monetary format
+    * non-monetary numeric format
+    * date format
+    * time format
+    * yes, no  for yes, no questions
+    */
+};
+
+Notice that the above example only includes formatting information and not strings. I am 
+assuming that the strings you need to translate will vary from app to app while the formatting will not.
+
+You should put the strings for your application in a separate file and extend the
+namespace $.i18.locale_name.strings
+
+File: example.ne.json
+
+jQuery.i18n.ne.strings = {
+    "Hello": "Namaste", "Welcome":"Namaste"
+};
+
+
+=== Methods ===
+
+Currently there are only a few methods
+
+$.i18n.setLocale(locale);  // set your current locale
+
+$.i18n(string), $._(string)   // get a translation from the myapp_name.locale_name.json file. If a translation isn't available, the original string is returned unchanged.
+
+$.i18n._n(number), $._n(number) //convert number to numeric character set for locale
+
+for example: 90 is written as ९० in Hindi and Nepali
+
+=== Using jQuery-i18n in your web app ===
+
+Step 1: Mark the strings and numbers you want translated with $._("") and $._n()
+
+Step 2: Put translations for each string in your_app.locale_name.json
+
+Step 3: Include a ton of files
+
+<script type='text/javascript' src='./jquery-1.3.2.min.js'></script>
+<script type='text/javascript' src='./jquery.i18n.js'></script>
+<script type='text/javascript' src='./jquery.ne.json'></script>
+<script type='text/javascript' src='example.ne.json'></script>
+
+Step 4: Try it out!
+
+
+=== Using it in a plugin ===
+
+Translations for jQuery plugins shouldn't be lumped together in one global namespace for each end-user's applications. Firstly, because the strings in the plugin may have a different translation context. Secondly, there is a likelihood the plugin will be translated by someone other than the end-user.
+
+jQuery-i18n can easily be extended for each plugin.
+
+This is handles by putting the translation for each locale under:
+ plugin_name.i18n.locale_name
+
+For example, my jQuery UI plugin kFooter has the namespace $.ui.kFooter. 
+
+jQuery-i18n would add the Nepali locale to $.ui.kFooter as $.ui.kFooter.i18n.ne
+
+Here is the json file that does that 
+
+--- File: ui.kFooter.ne.js  ----
+
+$.ui.kFooter.i18n.ne.strings = {
+"Score":"अङ्क", "Total": "जम्मा", "Play Again": "फेरी खेलौ", "Pause": "खेल रोकौ",
+"Start": "सुरु गरौ" }
+}
+
+
+Then add the $._() and $._n() functions to your plugin but call them with context of 
+your plugin 
+ 
+-- File: ui.kFooter.js --
+
+_ : function(val, loc){
+      return $.i18n.call($.ui.kFooter, val, loc);
+ },
+
+_n : function(val, loc){
+      return $._n(val, loc);  // converting #'s usually doesn't need your plugin's context
+},
+		  
+Make sure to extend your plugin namespace 
+
+  $.ui.kFooter.i18n = {};
+
+
+Then add the gettext function
+
+-- File: ui.kFooter.js --
+
+   this._('Score');
+
+
+
+
+This is a very rough draft. Comments and constructive criticism most welcome!

@@ -1,0 +1,5 @@
+$.ui.kFooter.i18n.ne = {
+strings : {
+"Score":"अङ्क", "Total": "जम्मा", "Play Again": "फेरी खेलौ", "Pause": "खेल रोकौ",
+"Start": "सुरु गरौ" }
+};
