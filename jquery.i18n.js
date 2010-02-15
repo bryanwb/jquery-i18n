@@ -9,6 +9,9 @@
 
      $.i18n = function(string, locale){
 	 var lang = locale || $.i18n.lang;
+	 if (!this.i18n[lang] || !this.i18n[lang].strings){
+	     return string;
+	 }
 	 return this.i18n[lang].strings[string]||string;
      };
 
@@ -33,6 +36,11 @@
      $.i18n._n = function(num, locale){
 
 	 locale = locale || $.i18n.lang;
+
+	 if (!this.i18n[locale] || !this.i18n[locale].numBase ){
+	     return num;
+	 }
+
 
 	 //48 is the base for western numerals
 	 var numBase = $.i18n[$.i18n.lang].numeralBase || 48;
